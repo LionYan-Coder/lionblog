@@ -1,18 +1,9 @@
 import { Container } from '~/components/ui';
-import { EResponseCode } from '~/config/enum';
-import http from '~/http';
-import { NoteList } from './Note';
+import { IdeaList } from './IdeaList';
 import { Metadata } from 'next';
-import { list } from 'postcss';
 import { EmptyIcon } from '~/assets';
-
-async function fetchNotebookList() {
-	const { code, data } = await http<NotebookListRes>('/notebook');
-	if (code !== EResponseCode.success) {
-		return [];
-	}
-	return data.list;
-}
+import { client } from 'sanity/lib/client';
+import { getIdeaQuery } from '~/lib/sanity/queries';
 
 export const metadata: Metadata = {
 	title: '我的想法',
@@ -20,7 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default async function NotePage() {
-	const list = await fetchNotebookList();
+	const ideas = await client.fetch<Idea[] | null>(getIdeaQuery, {
+		page: 1,
+		size: 99
+	});
 	return (
 		<Container className="mt-16 sm:mt-20">
 			<header className="max-w-2xl">
@@ -33,9 +27,9 @@ export default async function NotePage() {
 			</header>
 
 			<div className="mt-16 sm:mt-20">
-				{list && list.length > 0 ? (
+				{ideas && ideas.length > 0 ? (
 					<div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
-						<NoteList notes={list || []} />
+						<IdeaList ideas={ideas || []} />
 					</div>
 				) : (
 					<div className="max-w-2xl flex flex-col justify-center text-muted-foreground space-y-3">
@@ -47,3 +41,5 @@ export default async function NotePage() {
 		</Container>
 	);
 }
+
+export const revalidate = 60;

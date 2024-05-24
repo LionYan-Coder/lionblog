@@ -142,3 +142,20 @@ export const getIdeaBySlug = groq`
   "headings": content[length(style) == 2 && string::startsWith(style, "h")],
 }
 `;
+
+export const getGuestbookQuery = groq`
+*[_type == "guestbook" && !(_id in path("drafts.**"))] {
+  _id,
+  _createdAt,
+  user->{name,image},
+  message[] {
+    ...,
+    _type == "image" => {
+      "url": asset->url,
+      "lqip": asset->metadata.lqip,
+      "dimensions": asset->metadata.dimensions,
+      ...
+    }
+  },
+}
+`;

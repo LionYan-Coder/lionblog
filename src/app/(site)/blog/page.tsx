@@ -36,3 +36,5 @@ export default async function BlogPage() {
 		</Container>
 	);
 }
+
+export const revalidate = 60;
