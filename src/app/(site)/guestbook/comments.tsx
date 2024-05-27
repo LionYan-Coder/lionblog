@@ -4,6 +4,8 @@ import 'dayjs/locale/zh-cn';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { motion } from 'framer-motion';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Avatar, PostPortableText, Prose } from '~/components';
 dayjs.extend(relativeTime);
 
@@ -28,9 +30,9 @@ function MessageBlock({ guestbook }: { guestbook: Guestbook }) {
 					</time>
 				</div>
 			</div>
-			<Prose className="-mt-4 mb-1 pl-[3.25rem] text-sm">
-				<PostPortableText value={guestbook.message} />
-			</Prose>
+			<div className="-mt-4 mb-1 pl-[3.25rem] text-sm">
+				<Markdown remarkPlugins={[remarkGfm]}>{guestbook.message}</Markdown>
+			</div>
 		</>
 	);
 }

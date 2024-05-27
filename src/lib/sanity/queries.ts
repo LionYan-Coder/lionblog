@@ -15,9 +15,7 @@ export const getUserByProviderAccountIdQuery = groq`
   }[0]
 `;
 
-export const getUserByEmailQuery = groq`
-  *[_type == $userSchema && email == $email][0]
-`;
+export const getUserByEmailQuery = groq`*[_type == $userSchema && email == $email][0]`;
 
 export const getVerificationTokenQuery = groq`
   *[_type == $verificationTokenSchema && identifier == $identifier && token == $token][0]
@@ -148,14 +146,6 @@ export const getGuestbookQuery = groq`
   _id,
   _createdAt,
   user->{name,image},
-  message[] {
-    ...,
-    _type == "image" => {
-      "url": asset->url,
-      "lqip": asset->metadata.lqip,
-      "dimensions": asset->metadata.dimensions,
-      ...
-    }
-  },
+  message
 }
 `;

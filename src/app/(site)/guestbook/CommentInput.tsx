@@ -6,17 +6,22 @@ import {
 	useMotionTemplate,
 	useMotionValue
 } from 'framer-motion';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useReward } from 'react-rewards';
-import { EyeCloseIcon, EyeOpenIcon, TiltedSendIcon } from '~/assets';
+import {
+	EyeCloseIcon,
+	EyeOpenIcon,
+	LoaderCircleIcon,
+	TiltedSendIcon
+} from '~/assets';
 import { ElegantTooltip } from '~/components';
 import { cn } from '~/lib/utils';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 const MAX_MESSAGE_LENGTH = 600;
 const REWARDS_ID = 'guestbook-rewards';
@@ -24,8 +29,6 @@ const REWARDS_ID = 'guestbook-rewards';
 export function GuestbookInput() {
 	const { data } = useSession();
 	const user = data?.user;
-	console.log('user', user);
-
 	const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 	const [message, setMessage] = React.useState('');
 	const [isPreviewing, setIsPreviewing] = React.useState(false);
@@ -56,20 +59,37 @@ export function GuestbookInput() {
 		elementCount: 62
 	});
 
-	// const onClickSend = () => {
-	// 	if (isLoading) {
-	// 		return;
-	// 	}
+	async function createGuestbook() {
+		const res = await fetch('/api/guestbook', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				message
+			})
+		});
+		console.log('client res', res);
 
-	// 	signGuestbook();
-	// };
+		return res;
+	}
 
-	// const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-	// 	if (e.key === 'Enter' && e.metaKey) {
-	// 		e.preventDefault();
-	// 		onClickSend();
-	// 	}
-	// };
+	const onClickSend = async () => {
+		setIsLoading(true);
+		const res = await createGuestbook().finally(() => setIsLoading(false));
+		if (res) {
+			reward();
+			setIsPreviewing(false);
+			setMessage('');
+		}
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter' && e.metaKey) {
+			e.preventDefault();
+			onClickSend();
+		}
+	};
 
 	const mouseX = useMotionValue(0);
 	const mouseY = useMotionValue(0);
@@ -82,13 +102,6 @@ export function GuestbookInput() {
 		[mouseX, mouseY]
 	);
 	const background = useMotionTemplate`radial-gradient(320px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 85%)`;
-
-	if (!user) {
-		return (
-			<div className="h-[82px] animate-pulse rounded-xl bg-white/70 ring-2 ring-zinc-200/30 dark:bg-zinc-800/80 dark:ring-zinc-700/30" />
-		);
-	}
-
 	return (
 		<div
 			className={cn(
@@ -139,7 +152,7 @@ export function GuestbookInput() {
 
 			<div className="z-10 h-8 w-8 shrink-0 md:h-10 md:w-10">
 				<Image
-					src={user.image || ''}
+					src={user?.image || ''}
 					alt=""
 					width={40}
 					height={40}
@@ -163,7 +176,7 @@ export function GuestbookInput() {
 						value={message}
 						onChange={(event) => setMessage(event.target.value)}
 						placeholder="说点什么吧，万一火不了呢..."
-						// onKeyDown={handleKeyDown}
+						onKeyDown={handleKeyDown}
 						maxRows={8}
 						autoFocus
 					/>
@@ -230,9 +243,13 @@ export function GuestbookInput() {
 										whileTap={{ scale: 0.95 }}
 										type="button"
 										disabled={isLoading}
-										// onClick={onClickSend}
+										onClick={onClickSend}
 									>
-										<TiltedSendIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+										{isLoading ? (
+											<LoaderCircleIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200 animate-spin" />
+										) : (
+											<TiltedSendIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+										)}
 									</motion.button>
 								</ElegantTooltip>
 							</motion.aside>

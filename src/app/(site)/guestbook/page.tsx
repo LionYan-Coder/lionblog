@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 export default async function Guestbook() {
 	const messages = await client.fetch<Guestbook[] | null>(getGuestbookQuery);
 	const session = await auth();
-
 	return (
 		<Container className="mt-16 sm:mt-32">
 			<header className="max-w-2xl">
@@ -37,5 +36,3 @@ export default async function Guestbook() {
 		</Container>
 	);
 }
-
-export const revalidate = 60;
