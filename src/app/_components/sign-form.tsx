@@ -1,11 +1,9 @@
 'use client';
 import { Card, Button, Input, Label } from '~/components';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DOMAIN } from '~/config/constants';
 import { ProviderForm } from './provider-form';
-import { XIcon } from '~/assets';
 import { useState } from 'react';
 import { cn } from '~/lib/utils';
 

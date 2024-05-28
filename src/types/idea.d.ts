@@ -12,5 +12,5 @@ interface Idea {
 	};
 	coverImage: Asset;
 	tags: Tag[];
-	headings: Node[];
+	headings: BlockNode[];
 }

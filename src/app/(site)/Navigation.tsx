@@ -77,9 +77,7 @@ function DesktopNav({ className }: { className?: string }) {
 	const background = useMotionTemplate`radial-gradient(${radius}px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 65%)`;
 
 	return (
-		<motion.nav
-			initial={{ opacity: 0, y: -15 }}
-			animate={{ opacity: 1, y: 0 }}
+		<nav
 			onMouseMove={handleMouseMove}
 			className={cn(
 				`group relative 
@@ -102,7 +100,7 @@ function DesktopNav({ className }: { className?: string }) {
 					</NavItem>
 				))}
 			</ul>
-		</motion.nav>
+		</nav>
 	);
 }
 

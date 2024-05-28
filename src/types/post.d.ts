@@ -12,5 +12,5 @@ interface Post {
 	};
 	coverImage: Asset;
 	tags: Tag[];
-	headings: Node[];
+	headings: BlockNode[];
 }

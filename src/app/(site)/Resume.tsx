@@ -31,12 +31,14 @@ export default function Resume() {
 			animate="animate"
 			className="relative w-full flex flex-col gap-4 pt-10 text-4xl sm:text-5xl mt-[var(--header-height] h-[calc(100vh-var(--header-height))]"
 		>
-			<motion.p variants={variantItm}>你好，我是</motion.p>
 			<motion.p
 				variants={variantItm}
-				className="text-amber-800 text-5xl sm:text-6xl font-semibold dark:drop-shadow-[0_0_0.3rem_#92400E70]"
+				className="flex flex-col sm:flex-row gap-2"
 			>
-				Lion
+				<span>你好，我是</span>
+				<span className="text-amber-800 text-5xl font-semibold dark:drop-shadow-[0_0_0.3rem_#92400E70]">
+					Lion
+				</span>
 			</motion.p>
 			<motion.p className="group" variants={variantItm}>
 				<TypeAnimation
@@ -58,17 +60,20 @@ export default function Resume() {
 			>
 				热爱编码，喜欢{' '}
 				<span className="text-[#0871A4]  dark:drop-shadow-[0_0_0.3rem_#0871A470]">
-					React、
+					React
 				</span>
+				、
 				<span className="text-[#42b883]  dark:drop-shadow-[0_0_0.3rem_#42b88370]">
-					Vue、
-				</span>{' '}
-				<span className="text-[#0468d7] dark:drop-shadow-[0_0_0.3rem_#0468d770]">
-					Flutter、
+					Vue
 				</span>
+				、
+				<span className="text-[#0468d7] dark:drop-shadow-[0_0_0.3rem_#0468d770]">
+					Flutter
+				</span>
+				、
 				<span className="text-[#5dc9e2] dark:drop-shadow-[0_0_0.3rem_#5dc9e270]">
-					Go
-				</span>{' '}
+					Go{' '}
+				</span>
 				和{' '}
 				<span className="text-[#a42] dark:drop-shadow-[0_0_0.3rem_#80331a70]">
 					Rust
@@ -85,9 +90,9 @@ export default function Resume() {
 					repeat={Infinity}
 				/>
 			</motion.p>
-			<div className="absolute left-1/2 transform -trnaslate-x-1/2 bottom-5">
+			{/* <div className="absolute left-1/2 transform -trnaslate-x-1/2 bottom-5">
 				<Mouse />
-			</div>
+			</div> */}
 		</motion.div>
 	);
 }

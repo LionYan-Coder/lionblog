@@ -58,7 +58,7 @@ interface HeadingNode {
 	_key: string;
 }
 
-interface Node {
+interface BlockNode {
 	_type: 'block';
 	style: 'h1' | 'h2' | 'h3' | 'h4';
 	_key: string;
