@@ -15,9 +15,7 @@ export const getUserByProviderAccountIdQuery = groq`
   }[0]
 `;
 
-export const getUserByEmailQuery = groq`
-  *[_type == $userSchema && email == $email][0]
-`;
+export const getUserByEmailQuery = groq`*[_type == $userSchema && email == $email][0]`;
 
 export const getVerificationTokenQuery = groq`
   *[_type == $verificationTokenSchema && identifier == $identifier && token == $token][0]
@@ -140,5 +138,14 @@ export const getIdeaBySlug = groq`
     }
   },
   "headings": content[length(style) == 2 && string::startsWith(style, "h")],
+}
+`;
+
+export const getGuestbookQuery = groq`
+*[_type == "guestbook" && !(_id in path("drafts.**"))] {
+  _id,
+  _createdAt,
+  user->{name,image},
+  message
 }
 `;

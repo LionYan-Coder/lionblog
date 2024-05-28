@@ -15,6 +15,7 @@ export default async function BlogPage() {
 		size: 99,
 		page: 1
 	});
+
 	return (
 		<Container className="mt-16 sm:mt-20">
 			<header className="max-w-2xl">
@@ -36,3 +37,5 @@ export default async function BlogPage() {
 		</Container>
 	);
 }
+
+export const revalidate = 60;

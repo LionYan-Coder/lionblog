@@ -2,28 +2,37 @@
 
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
-import { ArrowRightIcon, CircleIcon, TagIcon } from '~/assets';
+import {
+	ArrowRightIcon,
+	CircleIcon,
+	PencilSwooshIcon,
+	TagIcon
+} from '~/assets';
 import Image from 'next/image';
 import Link from 'next/link';
 export function BlogPosts({ posts }: { posts: Post[] }) {
 	return (
 		<motion.div
-			className="space-y-16"
-			variants={{
-				initial: { opacity: 0 },
-				animate: {
-					opacity: 1,
-					transition: {
-						staggerChildren: 0.2
-					}
-				}
-			}}
-			initial="initial"
-			whileInView="animate"
+			animate={{ opacity: 1, y: 0 }}
+			initial={{ opacity: 0, y: 25 }}
+			className="mx-auto mt-24 sm:mt-32"
 		>
-			{posts.map((post) => (
-				<BlogPostCard key={post.slug} post={post} />
-			))}
+			<h2 className="mb-10 flex items-center justify-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+				<PencilSwooshIcon className="h-5 w-5 flex-none" />
+				<span className="ml-2">近期文章</span>
+			</h2>
+			{posts && posts.length > 0 ? (
+				<div className="relative sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-50rem))]">
+					<div className="hidden absolute top-3 bottom-0 right-full mr-7 md:mr-[3.25rem] w-px bg-slate-200 dark:bg-slate-800 sm:block"></div>
+					<div className="space-y-16">
+						{posts.map((post) => (
+							<BlogPostCard key={post.slug} post={post} />
+						))}
+					</div>
+				</div>
+			) : (
+				<p className="mb-2  text-muted-foreground">暂无博客...</p>
+			)}
 		</motion.div>
 	);
 }
@@ -78,7 +87,7 @@ export function BlogPostCard({ post }: { post: Post }) {
 			</div>
 			<Link
 				href={{ pathname: `/blog/${post.slug}` }}
-				className="text-sm flex items-center text-amber-700 group-hover:text-amber-800 transition-colors"
+				className="text-sm flex items-center text-amber-600 group-hover:text-amber-700 transition-colors"
 			>
 				<span className="relative">
 					阅读博客<span className="sr-only">, {post.title}</span>

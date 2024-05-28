@@ -106,7 +106,6 @@ export function SanityAdapter(
 				userSchema: options.schemas.user,
 				email
 			});
-
 			if (!user) return null;
 
 			return {

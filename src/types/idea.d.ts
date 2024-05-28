@@ -1,4 +1,4 @@
-interface Post {
+interface Idea {
 	_id: string;
 	slug: string;
 	title: string;

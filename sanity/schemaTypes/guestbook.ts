@@ -14,7 +14,7 @@ export default defineType({
 		defineField({
 			name: 'message',
 			title: 'Message',
-			type: 'blockContent'
+			type: 'string'
 		})
 	],
 

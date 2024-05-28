@@ -16,7 +16,6 @@ import { cn } from '~/lib/utils';
 import { clamp } from '~/lib/math';
 import { User } from '~/app/_components/user';
 import { ThemeSwitcher } from '~/app/_components/theme-switcher';
-import { ProviderForm } from '../_components/provider-form';
 
 const fromScale = 1;
 const toScale = 36 / 64;

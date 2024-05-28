@@ -4,7 +4,7 @@ import { motion, useScroll, type Variants } from 'framer-motion';
 import React from 'react';
 import { cn } from '~/lib/utils';
 
-const parseOutline = (nodes: Node[]) => {
+const parseOutline = (nodes: BlockNode[]) => {
 	return nodes
 		.filter((node) => node._type === 'block' && node.style.startsWith('h'))
 		.map((node) => {
@@ -46,7 +46,7 @@ const itemVariants = {
 	}
 } satisfies Variants;
 
-export function PostNavigation({ headings }: { headings: Node[] }) {
+export function PostNavigation({ headings }: { headings: BlockNode[] }) {
 	const outline = parseOutline(headings);
 	const { scrollY } = useScroll();
 	const [highlightedHeadingId, setHighlightedHeadingId] = React.useState<
