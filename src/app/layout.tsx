@@ -6,6 +6,8 @@ import { ThemeProvider } from '~/provider/theme';
 import type { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '~/auth';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
 	title: 'Lion Yan | Developer',
@@ -30,6 +32,9 @@ export default async function RootLayout({
 						{children}
 					</ThemeProvider>
 				</SessionProvider>
+
+				<SpeedInsights />
+				<Analytics />
 			</body>
 		</html>
 	);
