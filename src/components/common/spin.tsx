@@ -56,7 +56,7 @@ export function Spin({
 						animate={{ opacity: 0.5 }}
 						exit={{ opacity: 0 }}
 						transition={{ delay }}
-						className="absolute bg-primary-foreground w-full h-full flex flex-col justify-center items-center space-y-4"
+						className="absolute z-10 bg-primary-foreground w-full h-full flex flex-col justify-center items-center space-y-4"
 					>
 						<span className={SpinVariants({ size: size })}>{loader}</span>
 						{tip}

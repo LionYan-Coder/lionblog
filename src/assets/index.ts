@@ -58,3 +58,5 @@ export { TwitterIcon } from './icons/TwitterIcon';
 export { ArrowRightFromLineIcon } from './icons/ArrowRightFromLine';
 export { ClipboardCheckIcon } from './icons/ClipboardCheckIcon';
 export { ClipboardDataIcon } from './icons/ClipboardDataIcon';
+export { PenLineIcon } from './icons/PenLineIcon';
+export { ShieldAlertIcon } from './icons/ShieldAlertIcon';

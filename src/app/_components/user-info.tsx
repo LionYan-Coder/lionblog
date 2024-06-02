@@ -2,8 +2,15 @@
 import { motion } from 'framer-motion';
 import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import { client } from 'sanity/lib/client';
-import { ArrowRightFromLineIcon } from '~/assets';
+import { useMemo } from 'react';
+import {
+	ArrowRightFromLineIcon,
+	GitHubBrandIcon,
+	GitHubIcon,
+	GoogleBrandIcon,
+	MailIcon,
+	TwitterIcon
+} from '~/assets';
 import { Avatar, Popover } from '~/components';
 import { SignOut } from '~/lib/actions/auth';
 import { cn } from '~/lib/utils';
@@ -19,7 +26,30 @@ function UserAvatar({ user, className }: { user?: User; className?: string }) {
 
 export function UserInfo() {
 	const session = useSession();
-	// client.getDocuments()
+
+	const StrategyIcon = useMemo(() => {
+		let icon = null;
+		if (session.data?.user.providerId) {
+			switch (session.data?.user.providerId) {
+				case 'github':
+					icon = GitHubBrandIcon;
+					break;
+				case 'google':
+					icon = GoogleBrandIcon;
+					break;
+				case 'twitter':
+					icon = TwitterIcon;
+					break;
+				case 'email':
+					icon = MailIcon;
+					break;
+				default:
+					break;
+			}
+		}
+		return icon;
+	}, [session.data?.user.providerId]);
+
 	return (
 		<Popover>
 			<Popover.Trigger asChild>
@@ -35,11 +65,11 @@ export function UserInfo() {
 					>
 						<UserAvatar user={session.data?.user} />
 					</button>
-					{/* {StrategyIcon && (
-				<span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 select-none items-center justify-center rounded-full bg-white dark:bg-zinc-900">
-					<StrategyIcon className="h-3 w-3" />
-				</span>
-			)} */}
+					{StrategyIcon && (
+						<span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 select-none items-center justify-center rounded-full bg-white dark:bg-zinc-900">
+							<StrategyIcon className="h-3 w-3" />
+						</span>
+					)}
 				</motion.div>
 			</Popover.Trigger>
 			<Popover.Content align="end" className="rounded-2xl w-64 p-0">

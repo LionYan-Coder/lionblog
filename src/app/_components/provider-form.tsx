@@ -19,9 +19,9 @@ function StrategyIcon({ id, className }: { id: string; className?: string }) {
 	return <TwitterIcon className={className} />;
 }
 
-export function ProviderForm() {
+export function Providers() {
 	return (
-		<div className="mt-5 flex flex-col gap-2 text-[13px]">
+		<div className="flex flex-col gap-2 text-[13px]">
 			{providerMap.map((provider) => (
 				<Button
 					className="group w-full bg-[unset] backdrop-blur-sm justify-start gap-4 font-normal hover:bg-black/5 text-[13px]"

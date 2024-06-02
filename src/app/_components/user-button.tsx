@@ -1,11 +1,13 @@
 import { useSession } from 'next-auth/react';
-import { SignInOrUp } from './sign';
+import { SignInButton } from './sign-in-button';
 import { UserInfo } from './user-info';
 
-export function User() {
+export function UserButton() {
 	const session = useSession();
+	console.log('session', session);
+
 	if (!session?.data?.user) {
-		return <SignInOrUp />;
+		return <SignInButton />;
 	}
 
 	return <UserInfo />;

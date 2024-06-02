@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { DefaultSession, User } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
@@ -34,5 +34,35 @@ export const providerMap = providers
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	...authConfig,
 	providers,
-	adapter: SanityAdapter(client)
+	adapter: SanityAdapter(client),
+	callbacks: {
+		async session({ session, token }) {
+			if (token.providerId) {
+				session.user.providerId = token.providerId as string;
+			}
+			return session;
+		},
+		async jwt({ token, account }) {
+			// 如果是首次登录，把 providerId 加到 token 中
+			if (account) {
+				token.providerId = account.provider;
+			}
+			return token;
+		}
+	},
+	debug: process.env.NODE_ENV !== 'production' ? true : false
 });
+
+declare module 'next-auth' {
+	interface Session {
+		user: {
+			email: string;
+			id: string;
+			providerId?: string; // 添加自定义的属性
+		} & DefaultSession['user'];
+	}
+
+	interface User {
+		providerId?: string; // 添加自定义的属性
+	}
+}

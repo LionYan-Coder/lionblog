@@ -10,11 +10,11 @@ import { useEffect, useRef } from 'react';
 import { Container } from '~/components/ui';
 import { Navigation } from './Navigation';
 import Image from 'next/image';
-import { GITHUB } from '~/config/constants';
+import { DEFAULT_AVATAR, DEFAULT_AVATAR_ALT } from '~/config/constants';
 import { usePathname } from 'next/navigation';
 import { cn } from '~/lib/utils';
 import { clamp } from '~/lib/math';
-import { User } from '~/app/_components/user';
+import { UserButton } from '~/app/_components/user-button';
 import { ThemeSwitcher } from '~/app/_components/theme-switcher';
 
 const fromScale = 1;
@@ -179,8 +179,8 @@ export function Header() {
 										>
 											<Image
 												className="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 w-full h-full"
-												src={GITHUB.DEFAULT_AVATAR}
-												alt={GITHUB.DEFAULT_NAME}
+												src={DEFAULT_AVATAR}
+												alt={DEFAULT_AVATAR_ALT}
 												width={64}
 												height={64}
 												priority
@@ -230,8 +230,8 @@ export function Header() {
 												<div className="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10  select-none">
 													<Image
 														className="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 w-full h-full"
-														src={GITHUB.DEFAULT_AVATAR}
-														alt={GITHUB.DEFAULT_NAME}
+														src={DEFAULT_AVATAR}
+														alt={DEFAULT_AVATAR_ALT}
 														width={40}
 														height={40}
 														priority
@@ -251,7 +251,7 @@ export function Header() {
 								animate={{ opacity: 1, y: 0, scale: 1 }}
 								className="flex gap-3 justify-end md:flex-1"
 							>
-								<User />
+								<UserButton />
 								<ThemeSwitcher />
 							</motion.div>
 						</div>

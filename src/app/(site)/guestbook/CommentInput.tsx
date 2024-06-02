@@ -69,8 +69,6 @@ export function GuestbookInput() {
 				message
 			})
 		});
-		console.log('client res', res);
-
 		return res;
 	}
 
