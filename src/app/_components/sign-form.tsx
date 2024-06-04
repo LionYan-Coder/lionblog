@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircleIcon } from '~/assets';
 import { useSign } from './sign';
+import { SignIn } from '~/lib/actions/auth';
 
 const formSchema = z.object({
 	email: z
@@ -20,7 +21,7 @@ const formSchema = z.object({
 });
 
 export function SignInForm() {
-	const { setValidUser, setStep, sendEmail } = useSign();
+	const { setValidUser, setStep } = useSign();
 	const [loading, setLoading] = useState(false);
 
 	const form = useForm({
@@ -42,13 +43,12 @@ export function SignInForm() {
 			})
 			.catch(() => setLoading(false));
 		if (res._id) {
-			const data = await sendEmail(res.email).finally(() => setLoading(false));
-			if (data) {
-				setValidUser(res);
-				setStep('sendEmail');
-			}
+			await SignIn('resend', { ...formData, redirect: false }).finally(() =>
+				setLoading(false)
+			);
+			setValidUser(res);
+			setStep('sendEmail');
 		} else {
-			setLoading(false);
 			form.setError('email', { message: res.message });
 		}
 	}

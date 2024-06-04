@@ -2,10 +2,21 @@ import NextAuth, { DefaultSession, User } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
+import Resend from 'next-auth/providers/resend';
 import { client } from 'sanity/lib/client';
 import { Provider } from 'next-auth/providers';
 import { authConfig } from './auth.config';
 import { SanityAdapter, SanityCredentials } from './lib/sanity';
+import { emailConfig } from './config/email';
+import { getEmailTextAndHtml } from './email/ValidEmail';
+
+// import { UpstashRedisAdapter } from "@auth/upstash-redis-adapter"
+// import { Redis } from "@upstash/redis"
+
+// const redis = new Redis({
+//   url: process.env.UPSTASH_REDIS_URL!,
+//   token: process.env.UPSTASH_REDIS_TOKEN!,
+// })
 
 const providers: Provider[] = [
 	GithubProvider({
@@ -17,11 +28,43 @@ const providers: Provider[] = [
 	TwitterProvider({
 		allowDangerousEmailAccountLinking: true
 	}),
+	Resend({
+		from: emailConfig.from,
+		maxAge: 60 * 10,
+		async sendVerificationRequest(params) {
+			const { identifier: to, provider, url } = params;
+			const { host } = new URL(url);
+			const { text, html } = getEmailTextAndHtml({ host, url });
+
+			const res = await fetch('https://api.resend.com/emails', {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${provider.apiKey}`,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					from: provider.from,
+					to,
+					subject: `Sign in to lionblog.cc`,
+					html,
+					text
+				})
+			}).catch((err) => {
+				throw new Error('Resend error: ' + JSON.stringify(err));
+			});
+			if (!res.ok)
+				throw new Error('Resend error: ' + JSON.stringify(await res.json()));
+		}
+	}),
 	SanityCredentials(client)
 ];
 
+const filterProvider = ['Credentials', 'Resend'];
+
 export const providerMap = providers
-	.filter((v) => v.name !== 'Credentials')
+	.filter((v) => {
+		return !filterProvider.includes(v.name);
+	})
 	.map((provider) => {
 		if (typeof provider === 'function') {
 			const providerData = provider();

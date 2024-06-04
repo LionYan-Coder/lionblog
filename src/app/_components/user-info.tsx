@@ -40,7 +40,7 @@ export function UserInfo() {
 				case 'twitter':
 					icon = TwitterIcon;
 					break;
-				case 'email':
+				case 'resend':
 					icon = MailIcon;
 					break;
 				default:

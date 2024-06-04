@@ -2,9 +2,9 @@ import type { NextAuthConfig } from 'next-auth';
 import { emailConfig } from './config/email';
 
 export const authConfig = {
-	// pages: {
-	// 	signIn: '/sign-in'
-	// },
+	pages: {
+		signIn: '/sign-in'
+	},
 	session: {
 		strategy: 'jwt'
 	},

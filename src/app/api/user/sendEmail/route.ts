@@ -1,8 +1,6 @@
 import { NextRequest } from 'next/server';
 import { Resend } from 'resend';
-import { ValidEmail } from '~/email/ValidEmail';
 import CryptoJS from 'crypto-js';
-import { headers } from 'next/headers';
 import { emailConfig } from '~/config/email';
 import { kv } from '@vercel/kv';
 
@@ -24,12 +22,15 @@ export async function POST(req: NextRequest) {
 
 		let startTime = Date.now();
 
-		const { data, error } = await resend.emails.send({
-			from: 'lionblog.cc <lion@lionblog.cc>',
-			to: [email],
-			subject: '你的登录链接',
-			react: ValidEmail({ validHref })
-		});
+		// const { data, error } = await resend.emails.send({
+		// 	from: 'lionblog.cc <lion@lionblog.cc>',
+		// 	to: [email],
+		// 	subject: '你的登录链接',
+		// 	react: ValidEmail({
+		// 		url: `/sign-verify?${params.toString()}`,
+		// 		host: emailConfig.baseUrl as string
+		// 	})
+		// });
 
 		let endTime = Date.now();
 
@@ -38,11 +39,11 @@ export async function POST(req: NextRequest) {
 
 		console.log(`接口请求花费时间: ${duration} 毫秒`);
 
-		if (error) {
-			return Response.json({ error }, { status: 500 });
-		}
+		// if (error) {
+		// 	return Response.json({ error }, { status: 500 });
+		// }
 
-		return Response.json({ data });
+		return Response.json({ data: '' });
 	} catch (error) {
 		return Response.json({ error }, { status: 500 });
 	}

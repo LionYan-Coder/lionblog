@@ -9,6 +9,7 @@ import { DOMAIN } from '~/config/constants';
 import { SignInForm } from './sign-form';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { PenLineIcon, ShieldAlertIcon } from '~/assets';
+import { SignIn } from '~/lib/actions/auth';
 
 interface SignProps {
 	type?: 'sign-in' | 'sign-up';
@@ -47,28 +48,6 @@ function useSignContext({ type }: SignProps) {
 		content: ''
 	});
 
-	async function sendEmail(email: string) {
-		const res = await fetch('/api/user/sendEmail', {
-			method: 'POST',
-			body: JSON.stringify({
-				email: email
-			})
-		}).then((res) => res.json());
-		if (res && res.data && res.data.id) {
-			setCountdown(60);
-			return res.data.id;
-		} else {
-			setError({
-				type: 'error',
-				title: '发送邮件失败',
-				message: '关闭此弹窗以继续',
-				content: res.error
-			});
-		}
-
-		return false;
-	}
-
 	useEffect(() => {
 		let timer: NodeJS.Timeout | null = null;
 		if (countdown > 0) {
@@ -100,9 +79,9 @@ function useSignContext({ type }: SignProps) {
 			setValidUser,
 			setStep,
 			setSignType,
-			sendEmail,
 			spinning,
-			setSpinning
+			setSpinning,
+			setCountdown
 		}),
 		[countdown, error, signType, spinning, step, title, validUser]
 	);
@@ -127,11 +106,38 @@ export function Sign({ type, className }: SignProps) {
 		title,
 		step,
 		validUser,
-		sendEmail,
 		error,
 		spinning,
-		setSpinning
+		setSpinning,
+		setCountdown,
+		setError,
+		setValidUser,
+		setStep
 	} = context;
+
+	async function sendEmail() {
+		setSpinning(true);
+		try {
+			await SignIn('resend', {
+				email: validUser?.email,
+				redirect: false
+			}).finally(() => setSpinning(false));
+			setCountdown(60);
+		} catch (error) {
+			setError({
+				type: 'error',
+				title: '发送邮件失败',
+				message: '关闭此弹窗以继续',
+				content: JSON.stringify(error)
+			});
+		}
+	}
+
+	function handleBack() {
+		setValidUser(null);
+		setStep('login');
+	}
+
 	return (
 		<Spin spinning={spinning} className="w-auto">
 			<Card
@@ -197,6 +203,7 @@ export function Sign({ type, className }: SignProps) {
 										<Button
 											variant="link"
 											className="px-1 py-1 h-auto focus:ring"
+											onClick={handleBack}
 										>
 											<PenLineIcon className="text-info cursor-pointer" />
 										</Button>
@@ -210,14 +217,7 @@ export function Sign({ type, className }: SignProps) {
 										<button
 											className="underline mt-4 mb-3 tracking-wide disabled:opacity-70 disabled:cursor-not-allowed"
 											disabled={countdown > 0}
-											onClick={() => {
-												if (countdown === 0) {
-													setSpinning(true);
-													sendEmail(validUser?.email || '').finally(() =>
-														setSpinning(false)
-													);
-												}
-											}}
+											onClick={sendEmail}
 										>
 											重新发送链接{countdown > 0 && countdown}
 										</button>
