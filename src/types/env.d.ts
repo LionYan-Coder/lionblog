@@ -11,5 +11,7 @@ declare namespace NodeJS {
 		TWITTER_SECRET: string;
 		SANITY_API_READ_TOKEN: string;
 		SANITY_API_WRITE_TOKEN: string;
+
+		IPINFO_TOKEN: string;
 	}
 }

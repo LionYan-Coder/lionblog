@@ -8,12 +8,11 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 interface Props {
-	url: string;
-	host: string;
+	code: string;
 	ipInfo: IpInfo;
 }
 
-export const ValidEmail: FC<Props> = ({ url, host, ipInfo }) => {
+export const SignUpCodeEmail: FC<Props> = ({ code, ipInfo }) => {
 	const previewText = `你的登录链接`;
 	return (
 		<Layout previewText={previewText}>
@@ -26,30 +25,13 @@ export const ValidEmail: FC<Props> = ({ url, host, ipInfo }) => {
 				/>
 			</Section>
 			<Section className="mt-[24px] px-2 tracking-wider">
-				<Text className="text-3xl text-black font-bold">
-					Sign in to
-					<Link href={host} className="underline">
-						{host}
-					</Link>
-				</Text>
+				<Text className="text-3xl text-black font-bold">Verification code</Text>
 				<Text className="mt-8">
-					Click the button below to sign in to
-					<Link href={host} className="underline font-medium">
-						{host}.
-					</Link>
-					This link will expire in 10 minutes.
+					Enter the following verification code when prompted:
 				</Text>
-				<Button
-					href={url}
-					className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-zinc-800 text-primary-foreground shadow hover:bg-zinc-800/90 h-9 px-5 py-2 text-white"
-				>
-					Sign in to {host}
-				</Button>
+				<Text className="text-3xl text-black font-bold">{code}</Text>
 				<Text className="mt-8">
-					If {`you're`} having trouble with the above button,{' '}
-					<Link href={host} className="underline">
-						click here.
-					</Link>
+					To protect your account, do not share this code.
 				</Text>
 			</Section>
 			<Section className="mt-[48px] px-2 text-gray-500">
@@ -70,11 +52,11 @@ export const ValidEmail: FC<Props> = ({ url, host, ipInfo }) => {
 };
 
 export function getEmailTextAndHtml(props: Props) {
-	const text = render(<ValidEmail {...props} />, {
+	const text = render(<SignUpCodeEmail {...props} />, {
 		plainText: true
 	});
 
-	const html = render(<ValidEmail {...props} />, {
+	const html = render(<SignUpCodeEmail {...props} />, {
 		pretty: true
 	});
 

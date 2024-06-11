@@ -26,3 +26,4 @@ export * from './skeleton';
 export * from './resizable';
 export * from './separator';
 export * from './avatar';
+export * from './alert';

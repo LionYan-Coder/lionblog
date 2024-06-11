@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { client } from 'sanity/lib/client';
-import { z } from 'zod';
 import { auth } from '~/auth';
 import { getUserByEmailQuery } from '~/lib/sanity/queries';
-
-const guestbookSchema = z.object({
-	message: z.string().min(1).max(600)
-});
+import { guestbookSchema } from '~/lib/schema';
 
 export async function POST(req: NextRequest) {
 	const session = await auth();

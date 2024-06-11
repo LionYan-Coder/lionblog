@@ -9,6 +9,7 @@ import { authConfig } from './auth.config';
 import { SanityAdapter, SanityCredentials } from './lib/sanity';
 import { emailConfig } from './config/email';
 import { getEmailTextAndHtml } from './email/ValidEmail';
+import { getIpInfo } from './lib/ip';
 
 // import { UpstashRedisAdapter } from "@auth/upstash-redis-adapter"
 // import { Redis } from "@upstash/redis"
@@ -32,9 +33,10 @@ const providers: Provider[] = [
 		from: emailConfig.from,
 		maxAge: 60 * 10,
 		async sendVerificationRequest(params) {
-			const { identifier: to, provider, url } = params;
+			const { identifier: to, provider, url, request } = params;
 			const { host } = new URL(url);
-			const { text, html } = getEmailTextAndHtml({ host, url });
+			const ipInfo = await getIpInfo(request as any);
+			const { text, html } = getEmailTextAndHtml({ host, url, ipInfo });
 
 			const res = await fetch('https://api.resend.com/emails', {
 				method: 'POST',
