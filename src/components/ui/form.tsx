@@ -101,8 +101,7 @@ const FormLabel = forwardRef<
 		<Label
 			ref={ref}
 			className={cn(
-				error &&
-					'text-destructive transition-colors ease-in-out mb-1 text-[13px]',
+				error && 'text-destructive transition-colors ease-in-out mb-1 ',
 				className
 			)}
 			htmlFor={formItemId}
@@ -123,6 +122,7 @@ const FormControl = forwardRef<
 		<Slot
 			ref={ref}
 			id={formItemId}
+			className={error && 'border-destructive focus-visible:ring-destructive'}
 			aria-describedby={
 				!error
 					? `${formDescriptionId}`

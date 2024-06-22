@@ -8,7 +8,6 @@ import { LoaderCircleIcon } from '~/assets';
 import { useSign } from './sign';
 import { SignIn } from '~/lib/actions/auth';
 import { signInformSchema, signUpFormSchema } from '~/lib/schema';
-import { motion } from 'framer-motion';
 
 export function SignInForm() {
 	const { setLoginUser, setStep, setCountdown, setError } = useSign();
@@ -54,7 +53,7 @@ export function SignInForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-4">
+			<form className="flex flex-col gap-4 text-xs">
 				<Form.Field
 					name="email"
 					control={form.control}
@@ -70,7 +69,7 @@ export function SignInForm() {
 				></Form.Field>
 				<Button
 					onClick={form.handleSubmit(handleNextStep)}
-					className="w-full flex justify-center text-[13px] font-semibold"
+					className="w-full flex justify-center  font-semibold"
 					disabled={loading}
 				>
 					{loading ? (
@@ -142,7 +141,7 @@ export function SignUpForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-4 relative">
+			<form className="flex flex-col gap-4 relative text-xs">
 				<div className="flex gap-4">
 					<Form.Field
 						name="firstName"
@@ -199,7 +198,7 @@ export function SignUpForm() {
 				></Form.Field>
 				<Button
 					onClick={form.handleSubmit(handleNextStep)}
-					className="w-full flex justify-center text-[13px] font-semibold"
+					className="w-full flex justify-center  font-semibold"
 					disabled={loading}
 				>
 					{loading ? (

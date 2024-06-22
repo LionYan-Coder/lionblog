@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Avatar, Button, Card, Spin } from '~/components';
+import { Alert, Avatar, Button, Card, OtpInput, Spin } from '~/components';
 import { cn } from '~/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,13 +15,12 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { PenLineIcon, ShieldAlertIcon } from '~/assets';
+import { PenLineIcon } from '~/assets';
 import { SignIn } from '~/lib/actions/auth';
 import { z } from 'zod';
 import { signUpFormSchema } from '~/lib/schema';
 import { getFullName } from '~/lib/user';
 import { AnimatePresence, motion } from 'framer-motion';
-import OtpInput from 'react-otp-input';
 
 interface SignProps {
 	type?: 'sign-in' | 'sign-up';
@@ -121,12 +120,12 @@ export function Sign({ type, className, mode = 'modal' }: SignProps) {
 	const context = useSignContext({ type });
 	const { title, step, error, spinning, setStep, setRegisterUser } = context;
 
-	useEffect(() => {
-		setStep('verifyEmailCode');
-		setRegisterUser({
-			email: 'yanyahonglong@gmail.com'
-		} as any);
-	}, []);
+	// useEffect(() => {
+	// 	setStep('verifyEmailCode');
+	// 	setRegisterUser({
+	// 		email: 'yanyahonglong@gmail.com'
+	// 	} as any);
+	// }, []);
 
 	return (
 		<Spin spinning={spinning} className="w-auto">
@@ -328,7 +327,7 @@ function VerifyEmailCodeContent() {
 						})}
 					</Avatar.Fallback>
 				</Avatar>
-				<span className="text-muted-foreground text-sm text-ellipsis overflow-hidden">
+				<span className="text-muted-foreground text-ellipsis overflow-hidden">
 					{registerUser?.email}
 				</span>
 				<Button
@@ -340,34 +339,18 @@ function VerifyEmailCodeContent() {
 				</Button>
 			</div>
 
-			<div className="text-sm">
+			<div>
 				<p className="font-medium">验证码</p>
 				<p className="text-muted-foreground mt-2">
 					输入发送到您的电子邮件地址的验证码
 				</p>
-				<OtpInput
-					containerStyle={{
-						gap: '0.5rem',
-						width: 'max-content',
-						padding: '0.25rem 0'
-					}}
-					value={otp}
-					onChange={setOtp}
-					numInputs={6}
-					renderInput={(props) => (
-						<input
-							{...props}
-							style={{}}
-							className="bg-transparent w-full text-center max-w-7 min-w-[1ch] py-[0.125rem] font-semibold text-lg border-b-2 border-black/15 focus:border-info transition-colors outline-none"
-						/>
-					)}
-				/>
+				<OtpInput value={otp} onChange={setOtp} />
 				<button
-					className="underline mt-4 mb-3 tracking-wide disabled:opacity-70 disabled:cursor-not-allowed"
+					className="underline mt-6 mb-3 tracking-wide disabled:opacity-70 disabled:cursor-not-allowed"
 					disabled={countdown > 0}
 					onClick={reSendEmail}
 				>
-					重新发送链接{countdown > 0 && countdown}
+					重新发送验证码{countdown > 0 && countdown}
 				</button>
 			</div>
 		</>
