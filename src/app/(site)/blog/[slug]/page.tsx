@@ -1,17 +1,7 @@
 import { notFound } from 'next/navigation';
-import http from '~/http';
-import { EResponseCode } from '~/config/enum';
 import { BlogPostPage } from './BlogPostPage';
 import { client } from 'sanity/lib/client';
 import { getPostBySlug } from '~/lib/sanity/queries';
-
-async function getBlog(slug: string) {
-	const { data, code } = await http<Article>('/article/' + slug, 'GET');
-	if (code !== EResponseCode.success) {
-		return null;
-	}
-	return data;
-}
 
 export const generateMetadata = async ({
 	params
