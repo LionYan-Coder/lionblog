@@ -1,5 +1,4 @@
 import { defineType, defineArrayMember } from 'sanity';
-import { Tweet } from './components/Tweet';
 
 /**
  * This is the schema type for block content used in the post document type
@@ -82,26 +81,6 @@ export default defineType({
 					title: '标注'
 				}
 			]
-		}),
-		defineArrayMember({
-			type: 'object',
-			name: 'tweet',
-			title: '推文',
-			fields: [
-				{
-					name: 'id',
-					type: 'string',
-					title: '推文 ID'
-				}
-			],
-			components: {
-				preview: Tweet
-			},
-			preview: {
-				select: {
-					id: 'id'
-				}
-			}
 		}),
 		defineArrayMember({
 			type: 'code',
