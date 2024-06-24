@@ -22,7 +22,7 @@ export default function Footer() {
 						<div className="relative px-4 sm:px-8 lg:px-12">
 							<div className="mx-auto max-w-2xl lg:max-w-5xl">
 								<div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-									<ul className="relative flex gap-x-6 gap-y-1 ">
+									<ul className="relative flex gap-x-6 gap-y-1">
 										{Navs.map((nav, index) => (
 											<motion.li
 												initial={{ opacity: 0, y: 20 }}
@@ -40,9 +40,23 @@ export default function Footer() {
 											</motion.li>
 										))}
 									</ul>
-									<p className="text-sm text-zinc-400 dark:text-zinc-500">
-										&copy; 2024 Lion Yan
-									</p>
+									<div className="relative flex gap-x-5 gap-y-1 text-sm">
+										<Link
+											href="/privacy"
+											className="text-zinc-400 font-medium  dark:text-zinc-300 hover:text-amber-800 dark:hover:text-amber-600  transition-colors"
+										>
+											隐私政策
+										</Link>
+										<Link
+											href="/terms"
+											className="text-zinc-400 font-medium dark:text-zinc-300 hover:text-amber-800 dark:hover:text-amber-600  transition-colors"
+										>
+											用户协议
+										</Link>
+										<p className=" text-zinc-400 dark:text-zinc-500">
+											&copy; 2024 Lion Yan
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>
