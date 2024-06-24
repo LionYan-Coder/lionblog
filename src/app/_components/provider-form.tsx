@@ -21,10 +21,10 @@ function StrategyIcon({ id, className }: { id: string; className?: string }) {
 
 export function Providers() {
 	return (
-		<div className="flex flex-col gap-2 text-[13px]">
+		<div className="flex flex-col gap-2 ">
 			{providerMap.map((provider) => (
 				<Button
-					className="group w-full bg-[unset] backdrop-blur-sm justify-start gap-4 font-normal hover:bg-black/5 text-[13px]"
+					className="group w-full bg-[unset] backdrop-blur-sm justify-start gap-4 font-normal hover:bg-black/5 "
 					variant="outline"
 					size="lg"
 					key={provider.id}

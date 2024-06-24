@@ -14,7 +14,15 @@ html.light {
   --bg-color: theme('colors.zinc.50');
 }
 html.dark {
-  --bg-color: theme('colors.black');
+  --bg-color: theme('colors.primary.900');
+}
+
+[data-radix-popper-content-wrapper] {
+  z-index: 99999 !important;
+}
+
+[data-floating-ui-portal] {
+  z-index: 100000;
 }
 
 
@@ -44,7 +52,7 @@ html.dark {
     --destructive-foreground: 0 0% 98%;
     --success: #3E9B4F;
     --success-foreground: 0 0% 98%;
-    --info: #3E9B4F;
+    --info: theme('colors.sky.600');
     --info-foreground: 0 0% 98%;
     --warning: #EF5F00;
     --warning-foreground: 0 0% 98%;
@@ -73,7 +81,7 @@ html.dark {
     --destructive-foreground: 0 0% 98%;
     --success: #2A7E3B;
     --success-foreground: 0 0% 98%;
-    --info: #3E9B4F;
+    --info: theme('colors.sky.600');
     --info-foreground: 0 0% 98%;
     --warning: #CC4E00;
     --warning-foreground: 0 0% 98%;

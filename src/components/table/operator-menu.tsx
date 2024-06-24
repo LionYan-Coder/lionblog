@@ -25,7 +25,7 @@ interface DataTableOperatorDropdownMenuProps<T> {
 	onPublish?: (row: T) => Promise<void>;
 	onUnPublish?: (row: T) => Promise<void>;
 }
-export function DataTableOperatorDropdownMenu<T extends TableBaseInfo>({
+export function DataTableOperatorDropdownMenu<T = any>({
 	row,
 	editText = '编辑数据',
 	publishText = {
@@ -39,7 +39,7 @@ export function DataTableOperatorDropdownMenu<T extends TableBaseInfo>({
 	onPublish,
 	onUnPublish
 }: DataTableOperatorDropdownMenuProps<T>) {
-	const { published } = row;
+	const { published } = row as any;
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	function handleCancel() {

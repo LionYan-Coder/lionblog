@@ -6,6 +6,7 @@ export default function SignInPage() {
 			<Container className="mt-16">
 				<div className="flex justify-center items-center">
 					<Sign
+						mode="page"
 						type="sign-in"
 						className="border-none backdrop-blur-none backdrop-saturate-0 shadow-large bg-white dark:bg-[rgba(24,24,27,.4)]"
 					/>

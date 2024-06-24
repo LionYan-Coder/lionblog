@@ -2,13 +2,16 @@
 import withBundleAnalyzer from "@next/bundle-analyzer"
 
 const nextConfig = {
-  redirects: () => {
+  rewrites() {
     return [
       {
-        source:"/admin",
-        destination:"/admin/dashboard",
-        permanent: true
-      }
+        source: '/privacy',
+        destination: '/privacy.html',
+      },
+      {
+        source: '/terms',
+        destination: '/terms.html',
+      },
     ]
   },
   images: {

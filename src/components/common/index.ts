@@ -7,3 +7,4 @@ export * from './spin';
 export * from './prose';
 export * from './post-protable-text';
 export * from './post-navigtion';
+export * from './otp-input';

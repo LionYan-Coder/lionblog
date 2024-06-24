@@ -89,7 +89,7 @@ export function UserInfo() {
 							onClick={() => SignOut()}
 						>
 							<ArrowRightFromLineIcon className="mx-3 opacity-85 text-sm text-foreground/65" />
-							<span className="text-[13px] text-foreground/65">退出登录</span>
+							<span className=" text-foreground/65">退出登录</span>
 						</button>
 					</div>
 				</div>
