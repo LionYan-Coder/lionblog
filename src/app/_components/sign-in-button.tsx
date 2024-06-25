@@ -10,8 +10,8 @@ export function SignInButton() {
 	const [tooltipOpen, setTooltipOpen] = useState(false);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
-		<Tooltip.Provider delayDuration={400}>
-			<Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+		<Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+			<Tooltip.Provider disableHoverableContent>
 				<Tooltip.Root open={tooltipOpen} onOpenChange={setTooltipOpen}>
 					<Tooltip.Trigger asChild>
 						<Dialog.Trigger asChild>
@@ -41,9 +41,8 @@ export function SignInButton() {
 						)}
 					</AnimatePresence>
 				</Tooltip.Root>
-
-				<AnimatePresence>{dialogOpen && <SignDialog />}</AnimatePresence>
-			</Dialog.Root>
-		</Tooltip.Provider>
+			</Tooltip.Provider>
+			<AnimatePresence>{dialogOpen && <SignDialog />}</AnimatePresence>
+		</Dialog.Root>
 	);
 }

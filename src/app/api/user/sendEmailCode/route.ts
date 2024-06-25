@@ -1,12 +1,10 @@
 import { NextRequest } from 'next/server';
-import { Resend } from 'resend';
 import { emailConfig } from '~/config/email';
 import { kv } from '@vercel/kv';
 import { signUpFormSchema } from '~/lib/schema';
 import getEmailTextAndHtml from '~/email/SignUpCodeEmail';
 import { getIpInfo } from '~/lib/ip';
-
-const resend = new Resend(process.env.AUTH_RESEND_KEY);
+import { resend } from '~/email';
 
 export async function POST(req: NextRequest) {
 	try {
@@ -15,7 +13,7 @@ export async function POST(req: NextRequest) {
 		const code = Math.random().toString().slice(-6);
 		let startTime = Date.now();
 
-		await kv.set(email, code, { ex: 600 });
+		await kv.set(`${email}_token`, code, { ex: 600 });
 
 		let endTime = Date.now();
 

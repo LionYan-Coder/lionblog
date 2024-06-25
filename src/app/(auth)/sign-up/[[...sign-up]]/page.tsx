@@ -4,7 +4,7 @@ import { Container } from '~/components';
 export default function SignUpPage() {
 	return (
 		<div className="bg-background">
-			<Container className="mt-16">
+			<Container className="my-16">
 				<div className="flex justify-center items-center">
 					<Sign
 						mode="page"

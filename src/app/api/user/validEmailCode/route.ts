@@ -1,31 +1,22 @@
 import { kv } from '@vercel/kv';
-import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyCodeFormSchema } from '~/lib/schema';
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
 	try {
-		const searchParams = req.nextUrl.searchParams;
-		const email = searchParams.get('email');
-		const token = searchParams.get('token');
-		const redirect_url = searchParams.get('redirect_url');
+		const body = await req.json();
+		const { code, email } = verifyCodeFormSchema.parse(body);
 
-		let startTime = Date.now();
-		const v = await kv.get(`${email}-token`);
+		const kv_token = await kv.get(`${email}-token`);
 
-		let endTime = Date.now();
-
-		// 计算花费的时间
-		let duration = endTime - startTime;
-
-		console.log(`validEmail 接口请求花费时间: ${duration} 毫秒`);
-
-		if (v === token) {
-			return NextResponse.json(
-				{ expired: false, redirect_url },
-				{ status: 403 }
-			);
+		if (code === kv_token) {
+			return NextResponse.json({ data: true, message: '验证成功', code: 200 });
 		} else {
-			return NextResponse.json({ expired: true }, { status: 403 });
+			return NextResponse.json({
+				data: false,
+				message: '验证码错误哦',
+				code: 200
+			});
 		}
 	} catch (error) {
 		return Response.json({ error }, { status: 500 });

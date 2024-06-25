@@ -246,14 +246,10 @@ export function Header() {
 								<Navigation.Mobile className="pointer-events-auto relative z-40 md:hidden" />
 								<Navigation.Desktop className="pointer-events-auto relative z-40 hidden md:block" />
 							</div>
-							<motion.div
-								initial={{ opacity: 0, y: -20, scale: 0.95 }}
-								animate={{ opacity: 1, y: 0, scale: 1 }}
-								className="flex gap-3 justify-end md:flex-1"
-							>
+							<div className="flex gap-3 justify-end md:flex-1">
 								<UserButton />
 								<ThemeSwitcher />
-							</motion.div>
+							</div>
 						</div>
 					</Container>
 				</div>

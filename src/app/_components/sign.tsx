@@ -9,6 +9,7 @@ import { DOMAIN } from '~/config/constants';
 import { SignInForm, SignUpForm } from './sign-form';
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
@@ -21,6 +22,7 @@ import { z } from 'zod';
 import { signUpFormSchema } from '~/lib/schema';
 import { getFullName } from '~/lib/user';
 import { AnimatePresence, motion } from 'framer-motion';
+import { signUp } from '~/lib/sanity/client';
 
 interface SignProps {
 	type?: 'sign-in' | 'sign-up';
@@ -163,7 +165,7 @@ export function Sign({ type, className, mode = 'modal' }: SignProps) {
 						)}
 					</AnimatePresence>
 				</Card.Header>
-				<Card.Content className="px-8 flex flex-col gap-6">
+				<Card.Content className="px-8 flex flex-col gap-6 text-xs">
 					<SignContext.Provider value={context}>
 						{['login', 'register'].includes(step) && (
 							<FormContent mode={mode} />
@@ -291,13 +293,15 @@ function VerifyEmailCodeContent() {
 	} = useSign();
 
 	const [otp, setOtp] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [errMsg, setErrMsg] = useState('');
 
 	function handleBack() {
 		setRegisterUser(null);
 		setStep('register');
 	}
 
-	async function reSendEmail() {
+	async function reSendCode() {
 		setSpinning(true);
 		try {
 			await fetch('/api/user/sendEmailCode', {
@@ -315,6 +319,39 @@ function VerifyEmailCodeContent() {
 			});
 		}
 	}
+
+	const verifyCode = useCallback(async () => {
+		setLoading(true);
+		try {
+			const res = await fetch('/api/user/verifyEmailCode', {
+				method: 'POST',
+				body: JSON.stringify({ email: registerUser?.email, code: otp })
+			})
+				.then<BaseResponse<boolean>>((res) => res.json())
+				.finally(() => setLoading(false));
+
+			if (res.data) {
+				// signUp(registerUser)
+			} else {
+				setErrMsg(res.message);
+			}
+		} catch (error) {
+			setError({
+				type: 'error',
+				title: '验证失败',
+				description: JSON.stringify(error)
+			});
+		}
+	}, [otp, registerUser?.email, setError]);
+
+	useEffect(() => {
+		if (otp && otp.length === 6) {
+			console.log('verifyCode', verifyCode);
+
+			verifyCode();
+		}
+	}, [otp, verifyCode]);
+
 	return (
 		<>
 			<div className="bg-black/5 px-4 py-[0.375rem] border border-black/5 gap-2 flex items-center max-w-fit min-h-[2.375rem] rounded-[1.25rem]">
@@ -344,11 +381,17 @@ function VerifyEmailCodeContent() {
 				<p className="text-muted-foreground mt-2">
 					输入发送到您的电子邮件地址的验证码
 				</p>
-				<OtpInput value={otp} onChange={setOtp} />
+				<OtpInput
+					shouldAutoFocus
+					errMsg={errMsg}
+					loading={loading}
+					value={otp}
+					onChange={setOtp}
+				/>
 				<button
 					className="underline mt-6 mb-3 tracking-wide disabled:opacity-70 disabled:cursor-not-allowed"
 					disabled={countdown > 0}
-					onClick={reSendEmail}
+					onClick={reSendCode}
 				>
 					重新发送验证码{countdown > 0 && countdown}
 				</button>

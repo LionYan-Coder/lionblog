@@ -12,7 +12,7 @@ const DialogPortal = ({
 	...props
 }: DialogPrimitive.DialogPortalProps) => (
 	<DialogPrimitive.Portal {...props}>
-		<div className="fixed inset-0 z-40 flex items-start justify-center sm:items-center">
+		<div className="fixed inset-0 z-50 flex items-start justify-center sm:items-center">
 			{children}
 		</div>
 	</DialogPrimitive.Portal>
@@ -27,7 +27,7 @@ const DialogOverlay = React.forwardRef<
 		ref={ref}
 		className={cn(
 			`bg-zinc-800/40 dark:bg-black/80 
-       fixed inset-0 z-40 backdrop-blur
+       fixed inset-0 z-50 backdrop-blur
        data-[state=open]:animate-in
        data-[state=open]:fade-in
        data-[state=closed]:animate-out 
@@ -48,7 +48,7 @@ const DialogContent = React.forwardRef<
 		<DialogPrimitive.Content
 			ref={ref}
 			className={cn(
-				`fixed z-40 gap-4 p-6 sm:rounded-lg 
+				`fixed z-50 gap-4 p-6 sm:rounded-lg 
         data-[state=open]:animate-in 
         data-[state=open]:fade-in 
         data-[state=open]:zoom-in-95 

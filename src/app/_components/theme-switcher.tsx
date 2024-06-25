@@ -41,7 +41,7 @@ export function ThemeSwitcher({
 	}
 
 	return (
-		<Tooltip.Provider delayDuration={300} disableHoverableContent>
+		<Tooltip.Provider disableHoverableContent>
 			<Tooltip.Root open={tooltipOpen} onOpenChange={setTooltipOpen}>
 				<Tooltip.Trigger asChild>
 					<button

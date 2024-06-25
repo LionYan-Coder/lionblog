@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Otp, { OTPInputProps } from 'react-otp-input';
-import { LoaderCircleIcon } from '~/assets';
+import { CircleAlertIcon, LoaderCircleIcon } from '~/assets';
 import { cn } from '~/lib/utils';
 
 interface OtpExtendProps {
@@ -75,7 +75,7 @@ export function OtpInput({
 							animate={{ opacity: 1, x: 0 }}
 							exit={{ opacity: 0, x: -10 }}
 						>
-							<LoaderCircleIcon className="animate-spin text-black/15 text-2xl" />
+							<LoaderCircleIcon className="animate-spin text-black/85 text-base" />
 						</motion.div>
 					)}
 				</div>
@@ -86,7 +86,7 @@ export function OtpInput({
 						exit={{ opacity: 0, y: -10 }}
 						className="text-destructive text-sm mt-2"
 					>
-						{errMsg}
+						<CircleAlertIcon className="mr-2" /> {errMsg}
 					</motion.p>
 				)}
 			</div>

@@ -3,3 +3,6 @@ export const Authorization = 'Authorization';
 export const DOMAIN = 'lionblog.cc';
 export const DEFAULT_AVATAR = '/avatar_transparent.png';
 export const DEFAULT_AVATAR_ALT = 'lion';
+
+// sign
+export const SIGN_CODE = 'sign_code';
